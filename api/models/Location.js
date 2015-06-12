@@ -67,7 +67,7 @@ module.exports = {
 
   },
 
-  beforeValidate: function(values, cb) {
+  beforeValidate: function (values, cb) {
     if (!values.name) return cb();
     // if (values.views) delete values.views;
 
@@ -76,9 +76,9 @@ module.exports = {
     return cb();
   },
 
-  getRequiredAttributes: function() {
+  getRequiredAttributes: function () {
     var self = this;
-    return _.keys(_.pick(self._attributes, function(value, key, object) {
+    return _.keys(_.pick(self._attributes, function (value, key, object) {
       return "required" in object[key];
     }));
   }

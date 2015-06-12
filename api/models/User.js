@@ -31,17 +31,23 @@ module.exports = {
 
   },
 
-  beforeCreate: function(values, next) {
+  beforeCreate: function (values, next) {
 
     values.email = values.email.toLowerCase();
 
     // Generate a random salt
-    bcrypt.genSalt(10, function(err, salt) {
-      if ( err || !salt) return res.send(500, { error: err, salt: salt });
+    bcrypt.genSalt(10, function (err, salt) {
+      if (err || !salt) return res.send(500, {
+        error: err,
+        salt: salt
+      });
 
       // Hash the password with the salt
-      bcrypt.hash(values.password, salt, null, function(err, hash) {
-        if (err || !hash) return res.send(500, { error: err, hash: hash });
+      bcrypt.hash(values.password, salt, null, function (err, hash) {
+        if (err || !hash) return res.send(500, {
+          error: err,
+          hash: hash
+        });
 
         // Override the plain text password being passed to our model with the newly hashed one
         values.password = hash;
@@ -53,4 +59,3 @@ module.exports = {
   },
 
 };
-
