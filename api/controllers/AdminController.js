@@ -45,6 +45,7 @@ module.exports = {
       })
       .then(function (results) {
         console.log('Successfully seeded the DB.');
+        return res.send('Successfully seeded the DB.');
       }, function (error) {
         console.log('An error occured attempting to seed the DB: ', error);
       });
