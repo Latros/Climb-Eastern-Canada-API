@@ -22,6 +22,11 @@ module.exports = {
 
     locations: {
       collection: 'Location'
+    },
+
+    country: {
+      model: 'Country',
+      required: true
     }
 
   },

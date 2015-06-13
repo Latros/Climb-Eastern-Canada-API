@@ -62,6 +62,11 @@ module.exports = {
       collection: 'Image'
     },
 
+    province: {
+      model: 'Province',
+      required: true
+    },
+
     parking_location_latitude: {
       type: 'string'
     },
