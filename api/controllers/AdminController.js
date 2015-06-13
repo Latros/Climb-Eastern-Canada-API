@@ -57,7 +57,7 @@ function createCountry(data) {
   Country.create(data)
     .exec(function (err, results) {
       if (err || !results) deferred.reject(err, results);
-      console.log('RESULTS OF COUNTRY SEED:', results, err);
+      console.log('RESULTS OF COUNTRY SEED:', results);
       createdCountryId = results.id;
       deferred.resolve(results);
     });
@@ -69,7 +69,7 @@ function createProvince(data) {
   Province.create(data)
     .exec(function (err, results) {
       if (err || !results) deferred.reject(err, results);
-      console.log('RESULTS OF PROVINCE SEED:', results, err);
+      console.log('RESULTS OF PROVINCE SEED:', results);
       createdProvinceId = results.id;
       deferred.resolve(results);
     });
@@ -81,7 +81,7 @@ function createLocation(data) {
   Location.create(data)
     .exec(function (err, results) {
       if (err || !results) deferred.reject(err, results);
-      console.log('RESULTS OF LOCATION SEED:', results, err);
+      console.log('RESULTS OF LOCATION SEED:', results);
       createdLocationId = results.id;
       deferred.resolve(results);
     });
@@ -93,7 +93,7 @@ function createSublocation(data) {
   Sublocation.create(data)
     .exec(function (err, results) {
       if (err || !results) deferred.reject(err, results);
-      console.log('RESULTS OF SUBLOCATION SEED:', results, err);
+      console.log('RESULTS OF SUBLOCATION SEED:', results);
       deferred.resolve(results);
     });
   return deferred.promise;
@@ -104,7 +104,7 @@ function createClimb(data) {
   Climb.create(data)
     .exec(function (err, results) {
       if (err || !results) deferred.reject(err, results);
-      console.log('RESULTS OF CLIMB SEED:', results, err);
+      console.log('RESULTS OF CLIMB SEED:', results);
       deferred.resolve(results);
     });
   return deferred.promise;
