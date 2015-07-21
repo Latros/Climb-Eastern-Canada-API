@@ -20,13 +20,9 @@ module.exports = {
       required: true
     },
 
-    location: {
-      model: 'Location',
-      required: true
-    },
-
     sublocation: {
-      model: 'Sublocation'
+      model: 'Sublocation',
+      required: true
     },
 
     pictures: {

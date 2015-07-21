@@ -37,7 +37,6 @@ module.exports = {
 
     rock_features: {
       type: 'array',
-      required: true
     },
 
     access: {
@@ -52,10 +51,6 @@ module.exports = {
 
     sublocations: {
       collection: 'Sublocation'
-    },
-
-    climbs: {
-      collection: 'Climb'
     },
 
     pictures: {
