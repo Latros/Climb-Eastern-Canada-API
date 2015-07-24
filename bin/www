@@ -47,10 +47,7 @@ models.sequelize.sync().then(function () {
     + "\n          ) _.'\`-....'                   `-....'"
     + "\n         ('`    \""
     + "\n          `-.___/\n\n"
-    + "\n////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////"
-    + "\nNow leah knows exactly when her server is fully started so she doesn't have to hit enter a few times!!!"
-    + "\n////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////"
-    + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    + "\n\n\n";
     console.log(asciiUnicorn);
     debug('Express server listening on port ' + server.address().port);
   });
