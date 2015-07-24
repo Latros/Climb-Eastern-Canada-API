@@ -8,7 +8,6 @@ app.set('port', process.env.PORT || 3000);
 
 models.sequelize.sync().then(function () {
   var server = app.listen(app.get('port'), function() {
-    console.log('\033[2J');
     var asciiUnicorn = "                                                    /"
     + "\n                                                  .7"
     + "\n                                       \       , //"
@@ -50,7 +49,8 @@ models.sequelize.sync().then(function () {
     + "\n          `-.___/\n\n"
     + "\n////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////"
     + "\nNow leah knows exactly when her server is fully started so she doesn't have to hit enter a few times!!!"
-    + "\n////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////";
+    + "\n////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////"
+    + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     console.log(asciiUnicorn);
     debug('Express server listening on port ' + server.address().port);
   });
