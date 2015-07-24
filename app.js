@@ -15,4 +15,6 @@ app.use('/climb', climb);
 app.use('/sublocation', sublocation);
 app.use('/location', location);
 
+console.log('ASDFASDFASD');
+
 module.exports = app;
