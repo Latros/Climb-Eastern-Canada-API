@@ -15,7 +15,9 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Location.belongsTo(models.Province)
+        Location.belongsTo(models.Province, {
+          foreignKey: { allowNull: false }
+        });
         Location.hasMany(models.Sublocation, {as: 'Sublocations'});
         Location.hasMany(models.Photo, {as: 'Photos'});
       }

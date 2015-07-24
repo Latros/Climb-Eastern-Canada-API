@@ -8,7 +8,9 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Province.belongsTo(models.Country)
+        Province.belongsTo(models.Country, {
+          foreignKey: { allowNull: false }
+        });
         Province.hasMany(models.Location, {as: 'Locations'});
       }
     },
