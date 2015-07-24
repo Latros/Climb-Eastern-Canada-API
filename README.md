@@ -1,3 +1,4 @@
-# cec
+# CEC API
 
-a [Sails](http://sailsjs.org) application
+Express/Sequelize
+

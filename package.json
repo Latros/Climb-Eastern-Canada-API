@@ -1,41 +1,27 @@
 {
-  "name": "cec",
-  "private": true,
-  "version": "0.0.0",
-  "description": "a Sails application",
-  "keywords": [],
-  "dependencies": {
-    "ejs": "~0.8.4",
-    "grunt": "0.4.5",
-    "grunt-contrib-clean": "~0.6.0",
-    "grunt-contrib-coffee": "~0.13.0",
-    "grunt-contrib-concat": "~0.5.1",
-    "grunt-contrib-copy": "~0.8.0",
-    "grunt-contrib-cssmin": "~0.12.2",
-    "grunt-contrib-jst": "~0.6.0",
-    "grunt-contrib-less": "1.0.0",
-    "grunt-contrib-uglify": "~0.8.1",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-sails-linker": "~0.10.1",
-    "grunt-sync": "~0.2.3",
-    "include-all": "~0.1.6",
-    "q": "^1.4.1",
-    "rc": "~1.0.1",
-    "sails": "^0.12.0-rc3",
-    "sails-disk": "~0.10.7",
-    "sails-mysql": "^0.10.12",
-    "shortid": "^2.2.2",
-    "underscore": "^1.8.3"
-  },
-  "scripts": {
-    "debug": "node debug app.js",
-    "start": "node app.js"
-  },
+  "name": "Climb-Eastern-Canada-API",
+  "version": "1.0.0",
+  "description": "Express/Sequelize",
   "main": "app.js",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/sam/cec.git"
+    "url": "https://github.com/Latros/Climb-Eastern-Canada-API.git"
   },
-  "author": "sam",
-  "license": ""
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Latros/Climb-Eastern-Canada-API/issues"
+  },
+  "homepage": "https://github.com/Latros/Climb-Eastern-Canada-API",
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "debug": "^2.2.0",
+    "express": "^4.13.1",
+    "mysql": "^2.8.0",
+    "sequelize": "^3.4.1",
+    "sequelize-cli": "^1.7.2"
+  }
 }
