@@ -16,9 +16,7 @@ function findAllClimbs () {
 }
 
 function createClimb (data) {
-  return models.Climb.create(data).then(function(climb) {
-    return findClimbById(climb.dataValues.id);
-  }, errorHandler);
+  return models.Climb.create(data);
 }
 
 function findClimbById (id) {
@@ -35,9 +33,7 @@ function findClimbById (id) {
 function updateClimbById (id, data) {
   return models.Climb.update(data, {
     where: { id: id }
-  }).then(function() {
-    return findClimbById(id);
-  }, errorHandler);
+  });
 }
 
 function deleteClimbById (id) {
@@ -58,7 +54,7 @@ console.log(error);
 
 function successHandler (res, resource) {
   // Send back the resource that was updated/created/retrieved etc etc
-  return res.status(200).send(resource);
+  return resource !== null ? res.status(200).send(resource) : res.sendStatus(200);
 }
 
 /* Base level (id-less) routes */
@@ -69,48 +65,50 @@ router.route('/')
       successHandler(res, climbs);
     }, function(error) {
       errorHandler(res, error);
-    })
+    });
   })
 
   .post(function(req, res) {
-    models.Climb.create(req.body).then(function(climb) {
-      models.Climb.findById(climb.dataValues.id, {
-        include: [ { model: models.Photo, as: 'Photos' }, { model: models.Sublocation } ]
-      }).then(function(climb) {
-        res.send(climb);
-      }, function(err) {
-        console.log(err);
-        res.sendStatus(500);
-      })
-    }, function(err) {
-      console.log(err);
-      res.send(400, err);
+    createClimb(req.body).then(function(climb) {
+      findClimbById(climb.id).then(function(climb) {
+        successHandler(res, climb);
+      }, function(error) {
+        errorHandler(res, error);
+      });
+    }, function(error) {
+      errorHandler(res, error);
     });
   });
-
-  // .post(function(req, res) {
-  //   createClimb(req.body).then(function(climb) {
-  //     successHandler(res, climb);
-  //   }, function(error) {
-  //     console.log(arguments);
-  //     errorHandler(res, error);
-  //   })
-  // });
-
 
 /* Routes Where ID is specified */
 router.route('/:climbId')
 
   .get(function(req, res) {
-    findClimbById(req.params.climbId).then(successHandler, errorHandler);
+    findClimbById(req.params.climbId).then(function(climbs) {
+      successHandler(res, climbs);
+    }, function(error) {
+      errorHandler(res, error);
+    });
   })
 
   .put(function(req, res) {
-    updateClimbById(req.body, req.params.climbId).then(successHandler, errorHandler);
+    updateClimbById(req.params.climbId, req.body).then(function() {
+      findClimbById(req.params.climbId).then(function(climb) {
+        successHandler(res, climb);
+      }, function(error) {
+        errorHandler(res, error);
+      });
+    }, function(error) {
+      errorHandler(res, error);
+    });
   })
 
   .delete(function(req, res) {
-    deleteClimbById(req.params.climbId).then(successHandler, errorHandler);
+    deleteClimbById(req.params.climbId).then(function() {
+      successHandler(res, null);
+    }, function(error) {
+      errorHandler(res, error);
+    });
   });
 
 module.exports = router;
