@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var debug = require('debug')('Rock-Climb-Canada-API');
+var debug = require('debug')('CEC-API');
 var app = require('../app');
 var models = require("../models");
 
