@@ -111,7 +111,9 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Climb.belongsTo(models.Sublocation);
+        Climb.belongsTo(models.Sublocation, { 
+          foreignKey: { allowNull: false }
+        });
         Climb.hasMany(models.Photo, {as: 'Photos'});
       }
     },

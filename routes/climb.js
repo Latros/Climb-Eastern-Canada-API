@@ -16,9 +16,9 @@ function findAllClimbs () {
 }
 
 function createClimb (data) {
-  return models.Climb.create(req.body).then(function(climb) {
+  return models.Climb.create(data).then(function(climb) {
     return findClimbById(climb.dataValues.id);
-  }, errorHandler;
+  }, errorHandler);
 }
 
 function findClimbById (id) {
@@ -48,31 +48,57 @@ function deleteClimbById (id) {
   });
 }
 
-function errorHandler (error) {
+function errorHandler (res, error) {
   // Parse the error object and send a 400 if we know the error has something
   // to do with the data the user submitted, otherwise send 500 because the
   // error is probably ours :)
-  return error.name === 'SequelizeValidationError' ? res.send(400, error) : res.send(500, error);
+console.log(error);
+  return error && error.name === 'SequelizeValidationError' ? res.status(400).send(error) : res.status(500);
 }
 
-function successHandler (resource) {
+function successHandler (res, resource) {
   // Send back the resource that was updated/created/retrieved etc etc
-  return res.send(200, resource);
+  return res.status(200).send(resource);
 }
 
 /* Base level (id-less) routes */
 router.route('/')
 
   .get(function(req, res) {
-    findAllClimbs.then(successHandler, errorHandler);
+    findAllClimbs().then(function(climbs) {
+      successHandler(res, climbs);
+    }, function(error) {
+      errorHandler(res, error);
+    })
   })
 
   .post(function(req, res) {
-    createClimb(req.body).then(successHandler, errorHandler);
+    models.Climb.create(req.body).then(function(climb) {
+      models.Climb.findById(climb.dataValues.id, {
+        include: [ { model: models.Photo, as: 'Photos' }, { model: models.Sublocation } ]
+      }).then(function(climb) {
+        res.send(climb);
+      }, function(err) {
+        console.log(err);
+        res.sendStatus(500);
+      })
+    }, function(err) {
+      console.log(err);
+      res.send(400, err);
+    });
   });
 
+  // .post(function(req, res) {
+  //   createClimb(req.body).then(function(climb) {
+  //     successHandler(res, climb);
+  //   }, function(error) {
+  //     console.log(arguments);
+  //     errorHandler(res, error);
+  //   })
+  // });
 
-/* Routes Where ID is specified*/
+
+/* Routes Where ID is specified */
 router.route('/:climbId')
 
   .get(function(req, res) {
