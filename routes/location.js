@@ -2,74 +2,115 @@ var models  = require('../models');
 var express = require('express');
 var router  = express.Router();
 
+function findAllLocations () {
+  return models.Location.findAll({
+    include: [{
+      model: models.Photo,
+      as: 'Photos'
+    }, {
+      model: models.Sublocation,
+      as: 'Sublocations'
+    }, {
+      model: models.Province
+    }]
+  });
+}
+
+function createLocation (data) {
+  return models.Location.create(data);
+}
+
+function findLocationById (id) {
+  return models.Location.findById(id, {
+    include: [{
+      model: models.Photo,
+      as: 'Photos'
+    }, {
+      model: models.Sublocation,
+      as: 'Sublocations'
+    }, {
+      model: models.Province
+    }]
+  });
+}
+
+function updateLocationById (id, data) {
+  return models.Location.update(data, {
+    where: { id: id }
+  });
+}
+
+// TODO: Delete all climbs associated with sublocations??
+function deleteLocationById (id) {
+  return models.Location.destroy({
+    where: {
+      id: id
+    }
+  });
+}
+
+function errorHandler (res, error) {
+  // Parse the error object and send a 400 if we know the error has something
+  // to do with the data the user submitted, otherwise send 500 because the
+  // error is probably ours :)
+console.log(error);
+  return error && error.name === 'SequelizeValidationError' ? res.status(400).send(error) : res.status(500);
+}
+
+function successHandler (res, resource) {
+  // Send back the resource that was updated/created/retrieved etc etc
+  return resource !== null ? res.status(200).send(resource) : res.sendStatus(200);
+}
+
 router.route('/')
+
   .get(function(req, res) {
-    models.Location.findAll({
-    include: [ { model: models.Sublocation, as: 'Sublocations' }, { model: models.Photo, as: 'Photos' }, { model: models.Province } ]
-  }).then(function(locations) {
-      res.send(locations);
-    }, function(err) {
-      console.log(err);
-      res.sendStatus(500);
+    findAllLocations().then(function(locations) {
+      successHandler(res, locations);
+    }, function(error) {
+      errorHandler(res, error);
     });
   })
 
   .post(function(req, res) {
-    models.Location.create(req.body).then(function(location) {
-      models.Location.findById(location.dataValues.id, {
-        include: [ { model: models.Sublocation, as: 'Sublocations' }, { model: models.Photo, as: 'Photos' }, { model: models.Province } ]
-      }).then(function(location) {
-        res.send(location);
-      }, function(err) {
-        console.log(err);
-        res.sendStatus(500);
-      })
-    }, function(err) {
-      console.log(err);
-      res.sendStatus(500);
+    createLocation(req.body).then(function(location) {
+      findLocationById(location.id).then(function(location) {
+        successHandler(res, location);
+      }, function(error) {
+        errorHandler(res, error);
+      });
+    }, function(error) {
+      errorHandler(res, error);
     });
   });
 
-
-router.route('/:location_id')
+router.route('/:locationId')
 
   .get(function(req, res) {
-    models.Location.findById(req.params.location_id, {
-      include: [ { model: models.Sublocation, as: 'Sublocations' }, { model: models.Photo, as: 'Photos' }, { model: models.Province } ]
-    }).then(function(location) {
-      res.send(location);
-    }, function(err) {
-      console.log(err);
-      res.sendStatus(500);
+    findLocationById(req.params.locationId).then(function(locations) {
+      successHandler(res, locations);
+    }, function(error) {
+      errorHandler(res, error);
     });
   })
 
   .put(function(req, res) {
-    models.Location.update(req.body, {
-      where: { id: req.params.location_id }
-    }).then(function() {
-      models.Location.findById(req.params.location_id, {
-        include: [ { model: models.Sublocation, as: 'Sublocations' }, { model: models.Photo, as: 'Photos' }, { model: models.Province } ]
-      }).then(function(location) {
-        res.send(location);
-      }, function(err) {
-        console.log(err);
-        res.sendStatus(500);
-      })
-    }, function(err) {
-      console.log(err);
-      res.sendStatus(500);
+    updateLocationById(req.params.locationId, req.body).then(function() {
+      findLocationById(req.params.locationId).then(function(location) {
+        successHandler(res, location);
+      }, function(error) {
+        errorHandler(res, error);
+      });
+    }, function(error) {
+      errorHandler(res, error);
     });
   })
 
   .delete(function(req, res) {
-    models.Location.destroy(
-      {where: { id: req.params.location_id }
-    }).then(function() {
-      res.sendStatus(200);
-    }, function(err) {
-      console.log(err);
-      res.sendStatus(500);
+    deleteLocationById(req.params.locationId).then(function() {
+      successHandler(res, null);
+    }, function(error) {
+      errorHandler(res, error);
     });
   });
 

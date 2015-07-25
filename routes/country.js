@@ -1,43 +1,38 @@
-'use strict';
-
 var models  = require('../models');
 var express = require('express');
 var router  = express.Router();
 
-function findAllClimbs () {
-  return models.Climb.findAll({
+function findAllCountries () {
+  return models.Country.findAll({
     include: [{
-      model: models.Photo,
-      as: 'Photos'
-    }, {
-      model: models.Sublocation
+      model: models.Province,
+      as: 'Provinces'
     }]
   });
 }
 
-function createClimb (data) {
-  return models.Climb.create(data);
+function createCountry (data) {
+  return models.Country.create(data);
 }
 
-function findClimbById (id) {
-  return models.Climb.findById(id, {
+function findCountryById (id) {
+  return models.Country.findById(id, {
     include: [{
-      model: models.Photo,
-      as: 'Photos'
-    }, {
-      model: models.Sublocation
+      model: models.Province,
+      as: 'Provinces'
     }]
   });
 }
 
-function updateClimbById (id, data) {
-  return models.Climb.update(data, {
+function updateCountryById (id, data) {
+  return models.Country.update(data, {
     where: { id: id }
   });
 }
 
-function deleteClimbById (id) {
-  return models.Climb.destroy({
+// TODO: Delete all climbs associated with sublocations??
+function deleteCountryById (id) {
+  return models.Country.destroy({
     where: {
       id: id
     }
@@ -57,21 +52,20 @@ function successHandler (res, resource) {
   return resource !== null ? res.status(200).send(resource) : res.sendStatus(200);
 }
 
-/* Base level (id-less) routes */
 router.route('/')
 
   .get(function(req, res) {
-    findAllClimbs().then(function(climbs) {
-      successHandler(res, climbs);
+    findAllCountries().then(function(countries) {
+      successHandler(res, countries);
     }, function(error) {
       errorHandler(res, error);
     });
   })
 
   .post(function(req, res) {
-    createClimb(req.body).then(function(climb) {
-      findClimbById(climb.id).then(function(climb) {
-        successHandler(res, climb);
+    createCountry(req.body).then(function(country) {
+      findCountryById(country.id).then(function(country) {
+        successHandler(res, country);
       }, function(error) {
         errorHandler(res, error);
       });
@@ -80,21 +74,20 @@ router.route('/')
     });
   });
 
-/* Routes Where ID is specified */
-router.route('/:climbId')
+router.route('/:countryId')
 
   .get(function(req, res) {
-    findClimbById(req.params.climbId).then(function(climbs) {
-      successHandler(res, climbs);
+    findCountryById(req.params.countryId).then(function(countries) {
+      successHandler(res, countries);
     }, function(error) {
       errorHandler(res, error);
     });
   })
 
   .put(function(req, res) {
-    updateClimbById(req.params.climbId, req.body).then(function() {
-      findClimbById(req.params.climbId).then(function(climb) {
-        successHandler(res, climb);
+    updateCountryById(req.params.countryId, req.body).then(function() {
+      findCountryById(req.params.countryId).then(function(country) {
+        successHandler(res, country);
       }, function(error) {
         errorHandler(res, error);
       });
@@ -104,11 +97,12 @@ router.route('/:climbId')
   })
 
   .delete(function(req, res) {
-    deleteClimbById(req.params.climbId).then(function() {
+    deleteCountryById(req.params.countryId).then(function() {
       successHandler(res, null);
     }, function(error) {
       errorHandler(res, error);
     });
   });
+
 
 module.exports = router;

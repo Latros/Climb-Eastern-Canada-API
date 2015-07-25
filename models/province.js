@@ -2,9 +2,30 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Province = sequelize.define("Province", {
-    name: DataTypes.STRING,
-    views: {type: DataTypes.INTEGER, defaultValue: 1},
-    slug: {type: DataTypes.STRING, unique: true}
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    views: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        isInt: true
+      }
+    },
+    slug: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
   }, {
     classMethods: {
       associate: function(models) {

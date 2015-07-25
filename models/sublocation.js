@@ -2,10 +2,37 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Sublocation = sequelize.define("Sublocation", {
-    name: DataTypes.STRING,
-    views: {type: DataTypes.INTEGER, defaultValue: 1},
-    slug: {type: DataTypes.STRING, unique: true},
-    description: DataTypes.TEXT
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    views: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        isInt: true
+      }
+    },
+    slug: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
   }, {
     classMethods: {
       associate: function(models) {

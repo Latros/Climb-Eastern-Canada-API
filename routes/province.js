@@ -1,43 +1,42 @@
-'use strict';
-
 var models  = require('../models');
 var express = require('express');
 var router  = express.Router();
 
-function findAllClimbs () {
-  return models.Climb.findAll({
+function findAllProvinces () {
+  return models.Province.findAll({
     include: [{
-      model: models.Photo,
-      as: 'Photos'
+      model: models.Location,
+      as: 'Locations'
     }, {
-      model: models.Sublocation
+      model: models.Country
     }]
   });
 }
 
-function createClimb (data) {
-  return models.Climb.create(data);
+function createProvince (data) {
+  return models.Province.create(data);
 }
 
-function findClimbById (id) {
-  return models.Climb.findById(id, {
+function findProvinceById (id) {
+  return models.Province.findById(id, {
     include: [{
-      model: models.Photo,
-      as: 'Photos'
+      model: models.Location,
+      as: 'Locations'
     }, {
-      model: models.Sublocation
+      model: models.Country
     }]
   });
 }
 
-function updateClimbById (id, data) {
-  return models.Climb.update(data, {
+function updateProvinceById (id, data) {
+  return models.Province.update(data, {
     where: { id: id }
   });
 }
 
-function deleteClimbById (id) {
-  return models.Climb.destroy({
+// TODO: Delete all climbs associated with sublocations??
+function deleteProvinceById (id) {
+  return models.Province.destroy({
     where: {
       id: id
     }
@@ -57,21 +56,20 @@ function successHandler (res, resource) {
   return resource !== null ? res.status(200).send(resource) : res.sendStatus(200);
 }
 
-/* Base level (id-less) routes */
 router.route('/')
 
   .get(function(req, res) {
-    findAllClimbs().then(function(climbs) {
-      successHandler(res, climbs);
+    findAllProvinces().then(function(provinces) {
+      successHandler(res, provinces);
     }, function(error) {
       errorHandler(res, error);
     });
   })
 
   .post(function(req, res) {
-    createClimb(req.body).then(function(climb) {
-      findClimbById(climb.id).then(function(climb) {
-        successHandler(res, climb);
+    createProvince(req.body).then(function(province) {
+      findProvinceById(province.id).then(function(province) {
+        successHandler(res, province);
       }, function(error) {
         errorHandler(res, error);
       });
@@ -80,21 +78,20 @@ router.route('/')
     });
   });
 
-/* Routes Where ID is specified */
-router.route('/:climbId')
+router.route('/:provinceId')
 
   .get(function(req, res) {
-    findClimbById(req.params.climbId).then(function(climbs) {
-      successHandler(res, climbs);
+    findProvinceById(req.params.provinceId).then(function(provinces) {
+      successHandler(res, provinces);
     }, function(error) {
       errorHandler(res, error);
     });
   })
 
   .put(function(req, res) {
-    updateClimbById(req.params.climbId, req.body).then(function() {
-      findClimbById(req.params.climbId).then(function(climb) {
-        successHandler(res, climb);
+    updateProvinceById(req.params.provinceId, req.body).then(function() {
+      findProvinceById(req.params.provinceId).then(function(province) {
+        successHandler(res, province);
       }, function(error) {
         errorHandler(res, error);
       });
@@ -104,11 +101,12 @@ router.route('/:climbId')
   })
 
   .delete(function(req, res) {
-    deleteClimbById(req.params.climbId).then(function() {
+    deleteProvinceById(req.params.provinceId).then(function() {
       successHandler(res, null);
     }, function(error) {
       errorHandler(res, error);
     });
   });
+
 
 module.exports = router;
