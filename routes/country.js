@@ -30,7 +30,7 @@ function updateCountryById (id, data) {
   });
 }
 
-// TODO: Delete all climbs associated with sublocations??
+// TODO: Check if there are any provinces first
 function deleteCountryById (id) {
   return models.Country.destroy({
     where: {

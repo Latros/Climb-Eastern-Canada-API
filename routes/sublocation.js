@@ -40,7 +40,7 @@ function updateSublocationById (id, data) {
   });
 }
 
-// TODO: Delete all climbs associated with sublocations??
+// TODO: Check if there are any sublocations first
 function deleteSublocationById (id) {
   return models.Sublocation.destroy({
     where: {

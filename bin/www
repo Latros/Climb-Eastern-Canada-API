@@ -6,7 +6,56 @@ var models = require("../models");
 
 app.set('port', process.env.PORT || 3000);
 
-models.sequelize.sync().then(function () {
+models.sequelize.sync({force: true}).then(function () {
+
+  //Prepopulate tables with test data
+  models.Country.create({
+    name: 'Canada',
+    slug: 'freffwrg'
+  }).then(function(country) {
+    models.Province.create({
+      name: 'New Brunswick',
+      slug: 'freffefwrg',
+      CountryId: country.dataValues.id
+    }).then(function(province) {
+        models.Location.create({
+          name: 'Cochrane Lane',
+          slug: 'frefdsfefwrg',
+          overview: 'overview',
+          directions: 'directions',
+          rockDescription: 'rock description',
+          access: 'access',
+          camping: 'camping',
+          parkingLatitude: '45.958969',
+          parkingLongitude: '-66.661163',
+          ProvinceId: province.dataValues.id
+        }).then(function(location) {
+          models.Sublocation.create({
+            name: 'Joe\'s Garage',
+            slug: 'frcsdefdsfefwrg',
+            description: 'moro is cutest',
+            LocationId: location.dataValues.id
+          }).then(function(sublocation) {
+            models.Climb.create({
+              name: 'Snakepeel',
+              slug: 'frcsdefdsfeeweffwrg',
+              grade: '5.7',
+              numberOfPitches: 1,
+              isProject: 0,
+              style: 'Traditional',
+              protectionRating: 'G',
+              description: 'description',
+              heightInMeters: 27,
+              firstAscentBy: 'F. Berube',
+              firstAscentYear: 1993,
+              anchor: 'Rap Station',
+              SublocationId: sublocation.dataValues.id
+            });
+          });
+        });
+    });
+  });
+
   var server = app.listen(app.get('port'), function() {
     var asciiUnicorn = "                                                    /"
     + "\n                                                  .7"

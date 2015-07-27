@@ -34,7 +34,7 @@ function updateProvinceById (id, data) {
   });
 }
 
-// TODO: Delete all climbs associated with sublocations??
+// TODO: Check if there are any locations first
 function deleteProvinceById (id) {
   return models.Province.destroy({
     where: {

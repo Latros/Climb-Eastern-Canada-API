@@ -30,9 +30,14 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Province.belongsTo(models.Country, {
-          foreignKey: { allowNull: false }
+          foreignKey: { allowNull: false },
+          onDelete: 'CASCADE'
         });
-        Province.hasMany(models.Location, {as: 'Locations'});
+        Province.hasMany(models.Location, {
+          as: 'Locations',
+          foreignKey: { allowNull: false },
+          onDelete: 'CASCADE'
+        });
       }
     },
     hooks: {

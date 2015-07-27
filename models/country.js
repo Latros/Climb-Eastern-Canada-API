@@ -8,7 +8,11 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Country.hasMany(models.Province, {as: 'Provinces'});
+        Country.hasMany(models.Province, {
+          as: 'Provinces',
+          foreignKey: { allowNull: false },
+          onDelete: 'CASCADE'
+        });
       }
     },
     hooks: {

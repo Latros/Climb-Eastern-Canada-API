@@ -37,9 +37,14 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Sublocation.belongsTo(models.Location, {
-          foreignKey: { allowNull: false }
+          foreignKey: { allowNull: false },
+          onDelete: 'CASCADE'
         });
-        Sublocation.hasMany(models.Climb, {as: 'Climbs'});
+        Sublocation.hasMany(models.Climb, {
+          as: 'Climbs',
+          foreignKey: { allowNull: false },
+          onDelete: 'CASCADE'
+        });
         Sublocation.hasMany(models.Photo, {as: 'Photos'});
       }
     },
