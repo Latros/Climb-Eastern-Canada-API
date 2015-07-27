@@ -18,41 +18,63 @@ models.sequelize.sync({force: true}).then(function () {
       slug: 'freffefwrg',
       CountryId: country.dataValues.id
     }).then(function(province) {
-        models.Location.create({
-          name: 'Cochrane Lane',
-          slug: 'frefdsfefwrg',
-          overview: 'overview',
-          directions: 'directions',
-          rockDescription: 'rock description',
-          access: 'access',
-          camping: 'camping',
-          parkingLatitude: '45.958969',
-          parkingLongitude: '-66.661163',
-          ProvinceId: province.dataValues.id
-        }).then(function(location) {
-          models.Sublocation.create({
-            name: 'Joe\'s Garage',
-            slug: 'frcsdefdsfefwrg',
-            description: 'moro is cutest',
-            LocationId: location.dataValues.id
-          }).then(function(sublocation) {
-            models.Climb.create({
-              name: 'Snakepeel',
-              slug: 'frcsdefdsfeeweffwrg',
-              grade: '5.7',
-              numberOfPitches: 1,
-              isProject: 0,
-              style: 'Traditional',
-              protectionRating: 'G',
-              description: 'description',
-              heightInMeters: 27,
-              firstAscentBy: 'F. Berube',
-              firstAscentYear: 1993,
-              anchor: 'Rap Station',
-              SublocationId: sublocation.dataValues.id
-            });
+      models.Location.create({
+        name: 'Cochrane Lane',
+        slug: 'frefdsfefwrg',
+        overview: 'overview',
+        directions: 'directions',
+        rockDescription: 'rock description',
+        access: 'access',
+        camping: 'camping',
+        parkingLatitude: '45.958969',
+        parkingLongitude: '-66.661163',
+        ProvinceId: province.dataValues.id
+      }).then(function(location) {
+        models.Sublocation.create({
+          name: 'Joe\'s Garage',
+          slug: 'frcsdefdsfefwrg',
+          description: 'moro is cutest',
+          LocationId: location.dataValues.id
+        }).then(function(sublocation) {
+          models.Climb.create({
+            name: 'Snakepeel',
+            slug: 'frcsdefdsfeeweffwrg',
+            grade: '5.7',
+            numberOfPitches: 1,
+            isProject: 0,
+            style: 'Traditional',
+            protectionRating: 'G',
+            description: 'description',
+            heightInMeters: 27,
+            firstAscentBy: 'F. Berube',
+            firstAscentYear: 1993,
+            anchor: 'Rap Station',
+            SublocationId: sublocation.dataValues.id
           });
         });
+        models.Sublocation.create({
+          name: 'The Upper Tier',
+          slug: 'frcsdefdsfefwferg',
+          description: 'moro is cutest',
+          LocationId: location.dataValues.id
+        }).then(function(sublocation) {
+          models.Climb.create({
+            name: 'Monsieur Torpedo',
+            slug: 'frcsdsdsefdsfeeweffwrg',
+            grade: '5.9',
+            numberOfPitches: 1,
+            isProject: 0,
+            style: 'Sport',
+            numberOfBolts: 8,
+            description: 'description',
+            heightInMeters: 30,
+            firstAscentBy: 'S. Adamson, P. Adamson',
+            firstAscentYear: 2004,
+            anchor: 'Rap Station',
+            SublocationId: sublocation.dataValues.id
+          });
+        });
+      });
     });
   });
 
